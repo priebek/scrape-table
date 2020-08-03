@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-from itertools import islice
 
 url = "http://www.slyngel.dk/handuo/"
 page = requests.get(url)
@@ -12,18 +11,31 @@ data = {}
 # https://www.codementor.io/@dankhan/web-scrapping-using-python-and-beautifulsoup-o3hxadit4
 # http://tset.ninja/2018/12/02/2018-11-15-handuo-six-stars-movie-prediction/
 
-counter = -1
-
+# <tr>
 all_tr = tb.find_all('tr');
-# print(t.counter);
+for tr_item in all_tr[2:3]:
 
-for link in all_tr[2:10]:
+    # <td>
+    all_td = tr_item.find_all('td')
+    print(all_td)
+    for item in all_td:
+    
+        all_a = item.find_all('a');
+        for a in all_a:
+            print(a.get('href'));
+
+        # print(item.get('href'));
+        # print(item);
+
     counter += 1
 
-    print(link);
+    # print(link);
+    # print(link.td.string);
+    # print(link.a.string);
+
     # for l in link.find_all('td'):
-    if counter == 10:
-        break
+    # if counter == 20:
+    #     break
 
         # name = link.find('td')
         # print(name.get_text('href'))
