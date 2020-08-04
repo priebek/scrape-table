@@ -1,42 +1,36 @@
 import requests
 from bs4 import BeautifulSoup
+import json
 
 url = "http://www.slyngel.dk/handuo/"
 page = requests.get(url)
 soup = BeautifulSoup(page.content, 'html.parser')
 tb = soup.find('table', id='t01')
 
-data = {}
+data = []
 
 # https://www.codementor.io/@dankhan/web-scrapping-using-python-and-beautifulsoup-o3hxadit4
 # http://tset.ninja/2018/12/02/2018-11-15-handuo-six-stars-movie-prediction/
 
 # <tr>
-all_tr = tb.find_all('tr');
+all_tr = tb.find_all('tr')
 for tr_item in all_tr[2:3]:
 
     # <td>
     all_td = tr_item.find_all('td')
-    print(all_td)
-    for item in all_td:
-    
-        all_a = item.find_all('a');
-        for a in all_a:
-            print(a.get('href'));
 
-        # print(item.get('href'));
-        # print(item);
+    tmp = {}
+    tmp['episode'] = all_td[0].a.text
+    tmp['link'] = all_td[0].a.get('href')
+    tmp['title'] = all_td[1].a.text
+    tmp['imdb'] = all_td[1].a.get('href')
+    tmp['type'] = all_td[2].text
+    tmp['score'] = all_td[3].text
+    tmp['category'] = all_td[4].text
+    tmp['genre'] = all_td[5].text
+    tmp['year'] = all_td[6].text
+    tmp['broadcast'] = all_td[7].text
 
-    counter += 1
+    data.append(tmp)
 
-    # print(link);
-    # print(link.td.string);
-    # print(link.a.string);
-
-    # for l in link.find_all('td'):
-    # if counter == 20:
-    #     break
-
-        # name = link.find('td')
-        # print(name.get_text('href'))
-
+print(json.dumps(data))
