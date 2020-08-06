@@ -14,7 +14,7 @@ data = []
 
 # <tr>
 all_tr = tb.find_all('tr')
-for tr_item in all_tr[2:3]:
+for tr_item in all_tr[2:]:
 
     # <td>
     all_td = tr_item.find_all('td')
@@ -33,4 +33,7 @@ for tr_item in all_tr[2:3]:
 
     data.append(tmp)
 
-print(json.dumps(data))
+with open('data.json', 'w') as file:
+    file.write(json.dumps(data))
+
+# print(json.dumps(data))
